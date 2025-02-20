@@ -16,7 +16,7 @@ namespace SimpleCRM.Extensions
 		public static void ConfigureSqliteContext(this IServiceCollection services, IConfiguration config)
 		{
 			services.AddDbContext<RepositoryContext>(options =>
-				options.UseSqlite(config.GetConnectionString("sqliteConnection")));
+	options.UseSqlite(config.GetConnectionString("sqliteConnection")));
 		}
 	}
 }
