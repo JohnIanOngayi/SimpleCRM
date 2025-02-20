@@ -1,5 +1,6 @@
 using SimpleCRM.Extensions;
 using Scalar.AspNetCore;
+using NLog;
 
 internal class Program
 {
@@ -7,8 +8,12 @@ internal class Program
 	{
 		var builder = WebApplication.CreateBuilder(args);
 
-		// Add services to the container.
+		// Set up Logging
+		LogManager.Setup().LoadConfigurationFromFile
+			(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
+		// Add services to the container.
+		builder.Services.ConfigureLoggerService();
 		builder.Services.ConfigureCORS();
 		builder.Services.AddControllers();
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -30,7 +35,7 @@ internal class Program
 
 		// app.UseHttpsRedirection();
 
-		app.UseStaticFiles();
+		// app.UseStaticFiles();
 
 		app.UseForwardedHeaders(new ForwardedHeadersOptions
 		{
