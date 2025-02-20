@@ -9,6 +9,9 @@ logs/
 ## Sqlite database
 **.db
 
+## Migration files
+Migrations/
+
 # User-specific files
 *.rsuser
 *.suo

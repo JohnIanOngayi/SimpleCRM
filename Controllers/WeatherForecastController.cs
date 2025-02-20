@@ -9,19 +9,20 @@ public class WeatherForecastController : ControllerBase
 {
     private readonly ILoggerManager _logger;
 
-    public WeatherForecastController(ILoggerManager logger)
+    private readonly IRepositoryWrapper _repository;
+
+    public WeatherForecastController(ILoggerManager logger, IRepositoryWrapper repository)
     {
         _logger = logger;
+        _repository = repository;
     }
 
     [HttpGet]
     public IEnumerable<string> Get()
     {
-        // Testing Logger
-        _logger.LogInfo("An info message");
-        _logger.LogDebug("A debug message");
-        _logger.LogWarn("A warn message");
-        _logger.LogError("An error message");
+        // Testing RepositoryWrapper
+        var customers = _repository.Customer.FindAll();
+        var laCustomers = _repository.Customer.FindByCondition(c => c.City.Equals("New York"));
 
         return ["str1", "str2"];
     }

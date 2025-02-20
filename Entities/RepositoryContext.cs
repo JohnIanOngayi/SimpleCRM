@@ -32,6 +32,7 @@ namespace SimpleCRM.Entities
 				.HasData(
 				new Customer
 				{
+					Id = 3,
 					FirstName = "Stan",
 					LastName = "Rizzo",
 					City = "New York",
@@ -41,6 +42,7 @@ namespace SimpleCRM.Entities
 				},
 				new Customer
 				{
+					Id = 5,
 					FirstName = "Jane",
 					LastName = "Seagel",
 					City = "New York",
@@ -50,6 +52,7 @@ namespace SimpleCRM.Entities
 				},
 				new Customer
 				{
+					Id = 4,
 					FirstName = "Megan",
 					LastName = "Draper",
 					City = "Los Angeles",
@@ -59,6 +62,7 @@ namespace SimpleCRM.Entities
 				},
 				new Customer
 				{
+					Id = 1,
 					FirstName = "Donald",
 					LastName = "Draper",
 					City = "New York",
@@ -68,6 +72,7 @@ namespace SimpleCRM.Entities
 				},
 				new Customer
 				{
+					Id = 2,
 					FirstName = "Roger",
 					LastName = "Sterling",
 					City = "New York",

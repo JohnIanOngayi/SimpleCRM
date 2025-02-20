@@ -14,6 +14,8 @@ internal class Program
 
 		// Add services to the container.
 		builder.Services.ConfigureLoggerService();
+		builder.Services.ConfigureRepositoryWrapper();
+		builder.Services.ConfigureSqliteContext(builder.Configuration);
 		builder.Services.ConfigureCORS();
 		builder.Services.AddControllers();
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
