@@ -7,5 +7,6 @@ namespace SimpleCRM.Contracts
 	/// </summary>
 	public interface ICustomerRepository : IRepositoryBase<Customer>
 	{
+		IEnumerable<Customer> GetAllCustomers();
 	}
 }

@@ -15,5 +15,16 @@ namespace SimpleCRM.Repository
 		/// <param name="repositoryContext">The context for the repository.</param>
 		public CustomerRepository(RepositoryContext repositoryContext)
 			: base(repositoryContext) { }
+
+		/// <summary>
+		/// Retrieves all customers from the repository, ordered by their unique identifier.
+		/// </summary>
+		/// <returns>An <see cref="IEnumerable{Customer}"/> containing all customers.</returns>
+		public IEnumerable<Customer> GetAllCustomers()
+		{
+			return FindAll()
+				.OrderBy(customer => customer.Id)
+				.ToList();
+		}
 	}
 }

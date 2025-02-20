@@ -8,6 +8,7 @@ logs/
 
 ## Sqlite database
 **.db
+**.db-*
 
 ## Migration files
 Migrations/
