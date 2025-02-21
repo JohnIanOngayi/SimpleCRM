@@ -1,6 +1,8 @@
-@SimpleCRM_HostAddress = http://localhost:5000
+@HostAddress = http://localhost:5000/api
 
-GET {{SimpleCRM_HostAddress}}/weatherforecast/
+GET {{HostAddress}}/Home/
 Accept: application/json
 
+GET {{HostAddress}}/Customer/
+Accept: application/json
 ###
