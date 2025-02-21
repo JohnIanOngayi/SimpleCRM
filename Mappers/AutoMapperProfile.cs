@@ -13,6 +13,7 @@ namespace SimpleCRM.Mappers
 		public AutoMapperProfile()
 		{
 			CreateMap<Customer, CustomerDTO>();
+			CreateMap<CustomerCreationDTO, Customer>();
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using SimpleCRM.Contracts;
+using SimpleCRM.Entities.Models;
 using SimpleCRM.Entities.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -58,7 +59,7 @@ namespace SimpleCRM.Controllers
 		/// </summary>
 		/// <param name="id">The customer identifier.</param>
 		/// <returns>The customer with the specified identifier.</returns>
-		[HttpGet("{id}")]
+		[HttpGet("{id}", Name = "GetCustomerById")]
 		public IActionResult GetCustomerById(int id)
 		{
 			try
@@ -75,6 +76,43 @@ namespace SimpleCRM.Controllers
 				_logger.LogInfo($"Returned customer with id: {id}");
 
 				return Ok(customerResult);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"GetCustomerById Action Error: {ex.Message}");
+
+				return StatusCode(500, "Internal Server Error");
+			}
+		}
+
+		[HttpPost]
+		public IActionResult CreateCustomer([FromBody] CustomerCreationDTO newCustomer)
+		{
+			try
+			{
+				if (newCustomer is null)
+				{
+					_logger.LogError("Null Customer object from client");
+
+					return BadRequest("Null Customer Object");
+				}
+
+				if(!ModelState.IsValid)
+				{
+					_logger.LogError("Invalid Customer object from client");
+
+					return BadRequest("Invalid Customer Object");
+				}
+
+				var customerEntity = _mapper.Map<Customer>(newCustomer);
+
+				_repository.Customer.CreateCustomer(customerEntity);
+				_repository.Save();
+
+				var createdCustomer = _mapper.Map<CustomerDTO>(customerEntity);
+
+				return CreatedAtRoute("GetCustomerById", new { id = createdCustomer.Id }, createdCustomer);
+
 			}
 			catch (Exception ex)
 			{

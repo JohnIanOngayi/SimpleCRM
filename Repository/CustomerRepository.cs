@@ -32,6 +32,18 @@ namespace SimpleCRM.Repository
 		/// </summary>
 		/// <param name="id">The unique identifier of the customer.</param>
 		/// <returns>A <see cref="Customer"/> object if found; otherwise, null.</returns>
-		public Customer GetCustomerById(int id) => FindByCondition(customer => customer.Id.Equals(id)).FirstOrDefault();
+		public Customer? GetCustomerById(int id)
+		{
+			return FindByCondition(customer => customer.Id.Equals(id)).FirstOrDefault();
+		}
+
+		/// <summary>
+		/// Creates a new customer in the repository.
+		/// </summary>
+		/// <param name="customer">The customer to create.</param>
+		public void CreateCustomer(Customer customer)
+		{
+			Create(customer);
+		}
 	}
 }
