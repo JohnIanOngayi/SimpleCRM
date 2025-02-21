@@ -26,5 +26,12 @@ namespace SimpleCRM.Repository
 				.OrderBy(customer => customer.Id)
 				.ToList();
 		}
+
+		/// <summary>
+		/// Retrieves a customer by their unique identifier.
+		/// </summary>
+		/// <param name="id">The unique identifier of the customer.</param>
+		/// <returns>A <see cref="Customer"/> object if found; otherwise, null.</returns>
+		public Customer GetCustomerById(int id) => FindByCondition(customer => customer.Id.Equals(id)).FirstOrDefault();
 	}
 }

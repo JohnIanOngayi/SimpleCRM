@@ -1,5 +1,6 @@
 ﻿using SimpleCRM.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Permissions;
 
 namespace SimpleCRM.Controllers
 {
@@ -42,6 +43,35 @@ namespace SimpleCRM.Controllers
 			catch (Exception ex)
 			{
 				_logger.LogError($"GetAllCustomers Action Error: {ex.Message}");
+
+				return StatusCode(500, "Internal Server Error");
+			}
+		}
+
+		/// <summary>
+		/// Gets a customer by the specified identifier.
+		/// </summary>
+		/// <param name="id">The customer identifier.</param>
+		/// <returns>The customer with the specified identifier.</returns>
+		[HttpGet("{id}")]
+		public IActionResult GetCustomerById(int id)
+		{
+			try
+			{
+				var customer = _repository.Customer.GetCustomerById(id);
+				if (customer is null)
+				{
+					_logger.LogInfo($"Returned customer with id: {id} non-existent");
+
+					return NotFound();
+				}
+				_logger.LogInfo($"Returned customer with id: {id}");
+
+				return Ok(customer);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"GetCustomerById Action Error: {ex.Message}");
 
 				return StatusCode(500, "Internal Server Error");
 			}
