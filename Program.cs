@@ -10,24 +10,25 @@ internal class Program
 
 		// Set up Logging
 		LogManager.Setup().LoadConfigurationFromFile
-			(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+		(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 		// Add services to the container.
-		builder.Services.ConfigureLoggerService();
-		builder.Services.ConfigureRepositoryWrapper();
-		builder.Services.ConfigureSqliteContext(builder.Configuration);
-		builder.Services.ConfigureCORS();
-		builder.Services.AddControllers();
-		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-		builder.Services.AddEndpointsApiExplorer();
-		builder.Services.AddSwaggerGen();
+		builder.Services.ConfigureLoggerService(); // Configures the logging service
+		builder.Services.ConfigureRepositoryWrapper(); // Configures the repository wrapper service
+		builder.Services.ConfigureAutoMapper(); // Configures AutoMapper for object-object mapping
+		builder.Services.ConfigureSqliteContext(builder.Configuration); // Configures the SQLite database context
+		builder.Services.ConfigureCORS(); // Configures Cross-Origin Resource Sharing (CORS) policy
+		builder.Services.AddControllers(); // Adds controllers to the services collection
+										   // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+		builder.Services.AddEndpointsApiExplorer(); // Adds API explorer for endpoint documentation
+		builder.Services.AddSwaggerGen(); // Adds Swagger generator for API documentation
 
 		var app = builder.Build();
 
 		// Configure the HTTP request pipeline.
-			
+
 		// Configuring openapi Scala
-		app.UseSwagger(options => options.RouteTemplate = "openapi/{documentName}.json");	
+		app.UseSwagger(options => options.RouteTemplate = "openapi/{documentName}.json");
 		app.MapScalarApiReference(options =>
 		{
 			options.Title = "Simple CRM";

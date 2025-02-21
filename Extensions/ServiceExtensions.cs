@@ -26,5 +26,10 @@ namespace SimpleCRM.Extensions
 		{
 			services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 		}
+
+		public static void ConfigureAutoMapper(this IServiceCollection services)
+		{
+			services.AddAutoMapper(typeof(Program));
+		}
 	}
 }

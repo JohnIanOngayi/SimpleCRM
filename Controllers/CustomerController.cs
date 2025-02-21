@@ -1,4 +1,6 @@
 ﻿using SimpleCRM.Contracts;
+using SimpleCRM.Entities.DTOs;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Permissions;
 
@@ -14,16 +16,17 @@ namespace SimpleCRM.Controllers
 	{
 		private readonly ILoggerManager _logger;
 		private readonly IRepositoryWrapper _repository;
-
+		private readonly IMapper _mapper;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CustomerController"/> class.
 		/// </summary>
 		/// <param name="loggerManager">The logger manager.</param>
 		/// <param name="repositoryWrapper">The repository wrapper.</param>
-		public CustomerController(ILoggerManager loggerManager, IRepositoryWrapper repositoryWrapper)
+		public CustomerController(ILoggerManager loggerManager, IRepositoryWrapper repositoryWrapper, IMapper mapper)
 		{
 			_logger = loggerManager;
 			_repository = repositoryWrapper;
+			_mapper = mapper;
 		}
 
 		/// <summary>
@@ -36,9 +39,11 @@ namespace SimpleCRM.Controllers
 			try
 			{
 				var customers = _repository.Customer.GetAllCustomers();
+				var customersResult = _mapper.Map<IEnumerable<CustomerDTO>>(customers);
+
 				_logger.LogInfo("Returned all customers from the database.");
 
-				return Ok(customers);
+				return Ok(customersResult);
 			}
 			catch (Exception ex)
 			{
@@ -65,9 +70,11 @@ namespace SimpleCRM.Controllers
 
 					return NotFound();
 				}
+				var customerResult = _mapper.Map<CustomerDTO>(customer);
+				
 				_logger.LogInfo($"Returned customer with id: {id}");
 
-				return Ok(customer);
+				return Ok(customerResult);
 			}
 			catch (Exception ex)
 			{
