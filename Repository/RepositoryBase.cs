@@ -1,6 +1,6 @@
 ﻿using SimpleCRM.Contracts;
 using SimpleCRM.Entities;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 namespace SimpleCRM.Repository
 {

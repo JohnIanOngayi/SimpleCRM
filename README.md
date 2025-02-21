@@ -1,1 +1,3 @@
 # SimpleCRM
+
+EntityFrameworkCore\Enable-Migrations

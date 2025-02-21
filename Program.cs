@@ -14,12 +14,11 @@ internal class Program
 
 		// Add services to the container.
 		builder.Services.ConfigureLoggerService(); // Configures the logging service
+		builder.Services.ConfigureCORS(); // Configures Cross-Origin Resource Sharing (CORS) policy
+		builder.Services.ConfigureSqliteContext(builder.Configuration); // Configures the SQLite database context
 		builder.Services.ConfigureRepositoryWrapper(); // Configures the repository wrapper service
 		builder.Services.ConfigureAutoMapper(); // Configures AutoMapper for object-object mapping
-		builder.Services.ConfigureSqliteContext(builder.Configuration); // Configures the SQLite database context
-		builder.Services.ConfigureCORS(); // Configures Cross-Origin Resource Sharing (CORS) policy
 		builder.Services.AddControllers(); // Adds controllers to the services collection
-										   // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 		builder.Services.AddEndpointsApiExplorer(); // Adds API explorer for endpoint documentation
 		builder.Services.AddSwaggerGen(); // Adds Swagger generator for API documentation
 
