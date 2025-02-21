@@ -67,7 +67,7 @@ namespace SimpleCRM.Controllers
 				var customer = _repository.Customer.GetCustomerById(id);
 				if (customer is null)
 				{
-					_logger.LogInfo($"Returned customer with id: {id} non-existent");
+					_logger.LogInfo($"Customer with id: {id} non-existent");
 
 					return NotFound();
 				}
@@ -85,6 +85,11 @@ namespace SimpleCRM.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Creates a new customer.
+		/// </summary>
+		/// <param name="newCustomer">The customer creation DTO.</param>
+		/// <returns>The created customer.</returns>
 		[HttpPost]
 		public IActionResult CreateCustomer([FromBody] CustomerCreationDTO newCustomer)
 		{
@@ -97,7 +102,7 @@ namespace SimpleCRM.Controllers
 					return BadRequest("Null Customer Object");
 				}
 
-				if(!ModelState.IsValid)
+				if (!ModelState.IsValid)
 				{
 					_logger.LogError("Invalid Customer object from client");
 
@@ -117,6 +122,84 @@ namespace SimpleCRM.Controllers
 			catch (Exception ex)
 			{
 				_logger.LogError($"GetCustomerById Action Error: {ex.Message}");
+
+				return StatusCode(500, "Internal Server Error");
+			}
+		}
+
+		/// <summary>
+		/// Deletes a customer by the specified identifier.
+		/// </summary>
+		/// <param name="id">The customer identifier.</param>
+		/// <returns>No content if the customer was deleted.</returns>
+		[HttpDelete("{id}")]
+		public IActionResult DeleteCustomer(int id)
+		{
+			try
+			{
+				var customer = _repository.Customer.GetCustomerById(id);
+				if (customer is null)
+				{
+					_logger.LogInfo($"Tried to delete non-existent customer id: {id}");
+
+					return NotFound();
+				}
+				_repository.Customer.DeleteCustomer(customer);
+				_repository.Save();
+
+				return NoContent();
+
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"DeleteCustomer Action Error: {ex.Message}");
+
+				return StatusCode(500, "Internal Server Error");
+			}
+		}
+
+		/// <summary>
+		/// Updates a customer by the specified identifier.
+		/// </summary>
+		/// <param name="id">The customer identifier.</param>
+		/// <param name="customer">The customer update DTO.</param>
+		/// <returns>No content if the customer was updated.</returns>
+		[HttpPut("{id}")]
+		public IActionResult UpdateCustomer(int id, [FromBody] CustomerUpdateDTO customer)
+		{
+			try
+			{
+				if (customer is null)
+				{
+					_logger.LogInfo($"Client passed null Customer object for Update");
+
+					return BadRequest();
+				}
+
+				if (!ModelState.IsValid)
+				{
+					_logger.LogInfo($"Client passed invalid Customer object for Update");
+
+					return BadRequest();
+				}
+
+				var customerExists = _repository.Customer.GetCustomerById(id);
+				if (customerExists is null)
+				{
+					_logger.LogInfo($"Client tried updating non-existent Customer id: {id}");
+
+					return NotFound();
+				}
+
+				_mapper.Map(customer, customerExists);
+				_repository.Customer.UpdateCustomer(customerExists);
+				_repository.Save();
+
+				return NoContent();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"UpdateCustomer Action Error: {ex.Message}");
 
 				return StatusCode(500, "Internal Server Error");
 			}

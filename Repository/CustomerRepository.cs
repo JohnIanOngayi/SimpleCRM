@@ -45,5 +45,15 @@ namespace SimpleCRM.Repository
 		{
 			Create(customer);
 		}
+
+		public void DeleteCustomer(Customer customer)
+		{
+			Delete(customer);
+		}
+
+		public void UpdateCustomer(Customer customer)
+		{
+			Update(customer);
+		}
 	}
 }

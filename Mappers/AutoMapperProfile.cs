@@ -14,6 +14,7 @@ namespace SimpleCRM.Mappers
 		{
 			CreateMap<Customer, CustomerDTO>();
 			CreateMap<CustomerCreationDTO, Customer>();
+			CreateMap<CustomerUpdateDTO, Customer>();
 		}
 	}
 }
